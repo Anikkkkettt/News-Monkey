@@ -16,18 +16,23 @@ export class news extends Component {
         pageSize: PropTypes.number,
         category: PropTypes.string,
     }
-    constructor() {
-        super();
+
+    capitalizeFirstLetter =(string)=> {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
+
+    constructor(props) {
+        super(props);
         this.state = {
             articles: [],
             loading: false,
-            page: 1
+            page: 1,
         }
-
+        document.title = `News Monkey - ${this.capitalizeFirstLetter(this.props.category)}`
     }
 
     async handleCLick() {
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8d5238de0f324311bd264ca112742cf7&page=${this.state.page}&pageSize=${this.props.pageSize}`
+        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`
         this.setState({ loading: true })
         let data = await fetch(url);
         let parsedData = await data.json();
@@ -55,7 +60,7 @@ export class news extends Component {
     render() {
         return (
             <div className="container my-3">
-                <h2 className='text-center'>News Monkey - Top Headlines</h2>
+                <h2 className='text-center font-weight-bold'>News Monkey - Top {this.capitalizeFirstLetter(this.props.category)} Headlines</h2>
                 {this.state.loading && <LoadGen />}
                 <div className="row">
                     {!this.state.loading && this.state.articles.map((element) => {
