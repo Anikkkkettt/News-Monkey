@@ -6,7 +6,7 @@ export class LoadGen extends Component {
     return (
       
       <div className="text-center">
-        <img src={loading} alt="Loading" />
+        <img className='mb-4 mt-2' src={loading} alt="Loading" />
       </div>
     )
   }
