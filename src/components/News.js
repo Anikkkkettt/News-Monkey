@@ -15,8 +15,6 @@ const News = (props) => {
     const [page, setPage] = useState(1)
     const [totalResults, setTotalResults] = useState(0)
 
-    document.title = `News Monkey - ${capitalizeFirstLetter(props.category)}`
-
     const handleCLick = async() => {
         props.setProgress(10);
         let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`
@@ -32,8 +30,8 @@ const News = (props) => {
     }
 
     const fetchMoreData = async () => {
-        setPage(page+1)
         let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`
+        setPage(page+1)
         let data = await fetch(url);
         let parsedData = await data.json();
         setArticles(articles.concat(parsedData.articles))
@@ -41,7 +39,9 @@ const News = (props) => {
     };
 
     useEffect(() => {
+        document.title = `News Monkey - ${capitalizeFirstLetter(props.category)}`
         handleCLick();
+         // eslint-disable-next-line
     },[])
     
     /*    handleNext = async () => {
@@ -57,7 +57,7 @@ const News = (props) => {
     */
         return (
             <>
-                <h2 className='text-center font-weight-bold mt-4'>News Monkey - Top {capitalizeFirstLetter(props.category)} Headlines</h2>
+                <h2 className='text-center font-weight-bold' style={{marginTop : '80px'}}>News Monkey - Top {capitalizeFirstLetter(props.category)} Headlines</h2>
                 {loading && <LoadGen />}
                 <InfiniteScroll
                     dataLength={articles.length}
